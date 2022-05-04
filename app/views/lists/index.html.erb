@@ -1,16 +1,26 @@
-<div class="main cover mb-4 d-flex align-items-center justify-content-center" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path("cinema.jpg") %>)">
+<div class="card-category cover mb-4 d-flex align-items-center justify-content-center" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path("cinema.jpg") %>)">
   <h1>Save any kind of movies</h1>
 </div>
 
-<h3 class="mb-0">My Lists</h3>
-<%= link_to "Create a movie list", new_list_path, class: "btn btn-flat" %>
+<div class="container">
+  <div class ="d-flex justify-content-between me-4">
+    <h3><strong>My Lists</strong></h3>
+    <%= link_to new_list_path, class: "btn btn-flat" do %>
+      <i class="fas fa-film"></i> Create a movie list
+    <% end %>
+  </div>
+</div>
 
-<% @lists.each do |list| %>
-  <div class="co-12 col-sm-6 col-md-4">
-    <%= link_to list_path(list), class: "text-decoration-none" do %>
-      <div class="card-category" data-aos="zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path("list_background.jpg") %>)">
-        <%= list.name %>
+<div class="container">
+  <div class="d-flex justify-content-between align-content-start flex-wrap">
+    <% @lists.each do |list| %>
+      <div class="co-12 col-sm-6 col-md-4">
+        <%= link_to list_path(list), class: "text-decoration-none" do %>
+          <div class="card" data-aos="zoom-in" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path("list_background.jpg") %>)">
+            <%= list.name %>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>
-<% end %>
+</div>
