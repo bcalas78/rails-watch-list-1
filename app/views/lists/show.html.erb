@@ -1,35 +1,51 @@
-<div class="card-category card-large" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path('list_background.jpg') %>)">
-    <h1><%= @list.name %></h1>
+<div>
+  <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= asset_path('list_background.jpg') %>)">
+      <h1><%= @list.name %></h1>
+      <span class="movie-tag"><%= pluralize(@list.movies.size, 'movie') %></span>
+  </div>
 </div>
 
-    <span class="movie-tag"><%= pluralize(@list.movies.size, 'movie') %></span>
-
-    <span class="mb-2 d-block"><small><em class="text-muted"><%= "You haven't saved any movies yet!" if @list.movies.empty? %></em></small></span>
-
-    <button type="button" class="btn btn-gradient" data-bs-toggle="modal" data-bs-target="#new_movie_modal">
-        add a movie
+<div class="container mt-4">
+  <span class="mb-2 d-block"><small><em class="text-muted"><%= "You haven't saved any movies yet!" if @list.movies.empty? %></em></small></span>
+  <div class="d-flex justify-content-between mt-4">
+    <button type="button" class="btn btn-flat" data-bs-toggle="modal" data-bs-target="#new_movie_modal">
+        <i class="fas fa-plus"></i> Add a movie
     </button>
+    <%= link_to list_path(@list), method: :delete, class: "btn btn-flat", data: { confirm: "Are you sure you want to delete this list?" } do %>
+      <i class="fas fa-trash"></i> Delete this list
+    <% end %>
+  </div>
 
-<%= link_to "delete this list", list_path(@list), method: :delete, class: "btn btn-cancel", data: { confirm: "Are you sure you want to delete this list?" } %>
-
-<% @list.movies.each do |movie| %>
+  <div class="row my-2">
+    <% @list.movies.each do |movie| %>
       <% bookmark = Bookmark.find_by(list: @list, movie: movie) %>
       <div class="col-12 col-sm-6 mb-4" data-aos="zoom-in">
         <div class="bg-white rounded shadow h-100">
           <%= image_tag movie.poster_url, alt: movie.title, class: "movie-img rounded-top" %>
           <div class="p-3 rounded-bottom d-flex flex-column">
-            <strong><%= movie.title %> <span class="text-muted font-weight-normal">• <%= movie.rating %> <i class="fas fa-star star-yellow"></i></span></strong>
+            <strong><%= movie.title %> <span class="text-muted font-weight-normal">• <%= movie.rating %> <i class="fas fa-star"></i></span></strong>
             <small class="text-muted"><%= movie.overview %></small>
             <div class="d-flex align-items-end justify-content-between pt-4">
               <div>
-                <i class="fas fa-quote-left me-2"></i><small class="flex-grow-1"><%= bookmark.comment %></small>
+                <i class="fas fa-quote-left me-2"></i><%= bookmark.comment %>
               </div>
-              <small class="text-right flex-shrink-0"><%= link_to "delete", bookmark_path(bookmark), method: :delete, data: { confirm: "Are you sure you want to remove #{movie.title} from your #{@list.name} list"}, class: 'text-danger' %></small>
+              <div>
+                <%= link_to bookmark_path(bookmark), method: :delete, class: "btn btn-red", data: { confirm: "Are you sure you want to remove #{movie.title} from your #{@list.name} list" } do %>
+                  <i class="fas fa-trash"></i> Delete this movie
+                <% end %>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <p><%= link_to "Back to list", lists_path %></p>
     <% end %>
+  </div>
+</div>
+
+<div class="d-flex justify-content-center">
+  <%= link_to lists_path, class: "btn btn-blue" do %>
+    <i class="fas fa-list"></i> Back to list
+  <% end %>
+</div>
 
 <%= render "bookmarks/new", list: @list %>

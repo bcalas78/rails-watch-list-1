@@ -6,9 +6,11 @@
         <%= form_for(@list) do |f| %>
           <%= f.label :name %>
           <%= f.text_field :name %>
-          <%= f.submit class: "btn btn-gradient" %>
+          <%= f.submit class: "btn btn-flat" %>
         <% end %>
-        <p><%= link_to "Back to list", lists_path %></p>
+        <%= link_to lists_path, class: "btn btn-blue2" do %>
+          <i class="fas fa-backward"></i> Back to list
+        <% end %>
         </div>
     </div>
   </div>
