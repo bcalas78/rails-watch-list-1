@@ -1,0 +1,9 @@
+<%= simple_form_for([ list, review ], remote: true,
+                          data: {
+                            insert_in_list_target: "form",
+                            action: "submit->insert-in-list#send"
+                        }) do |f| %>
+  <%= f.input :comment, as: :text, label: "Your comment:", placeholder: "Add your review here..." %>
+  <%= f.input :rating, as: :select, collection: (1..5), required: true, prompt: "What's your rating?" %>
+  <%= f.button :submit, class: "btn btn-flat" %>
+<% end %>
