@@ -1,0 +1,17 @@
+<div class="card-comment">
+  <p id="review-<%= review.id %>"><%= review.comment %></p>
+    <small>
+    <div class="d-flex justify-content-around">
+      <strong><%= review.user.nickname %></strong>
+      <i><%= review.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+      <% if review.user.id == current_user.id %>
+        <%= link_to edit_review_path(review) do %>
+          <i class="fas fa-file-pen"></i>
+        <% end %>
+        <%= link_to review_path(review), method: :delete, data: { confirm: "Are you sure you want to delete this comment?" } do %>
+          <i class="fas fa-trash-can"></i>
+        <% end %>
+      <% end %>
+    </div>
+    </small>
+</div>

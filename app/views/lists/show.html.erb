@@ -1,5 +1,5 @@
 <div>
-  <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('<%= cl_image_path @list.photo.key, height: 300, crop: :fill %>')">
+  <div class="card-category" style="background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(<%= @list.photo.attached? ? cl_image_path(@list.photo.key) : asset_path('list_background.jpg') %>)">
       <h1><%= @list.name %></h1>
       <span class="movie-tag"><%= pluralize(@list.movies.size, 'movie') %></span>
   </div>
@@ -39,6 +39,47 @@
         </div>
       </div>
     <% end %>
+  </div>
+</div>
+
+<div data-controller="insert-in-list">
+  <div data-insert-in-list-target="items">
+    <div id="reviews">
+      <h5>Add your review</h5>
+      <% if @list.reviews.blank? %>
+        Be the first to leave a review for <strong><%= @list.name %></strong>
+      <% else %>
+        <% @list.reviews.each do |review| %>
+          <div class="card-comment">
+            <p id="review-<%= review.id %>"><%= review.comment %></p>
+            <small>
+                <div class="d-flex justify-content-around">
+                  <%# <strong><%= review.user.nickname  %>
+                  <i><%= review.created_at.strftime("%a %b %e at %l:%M %p") %></i>
+                  <%# <% if review.user.id == current_user.id %>
+                    <%# <%= link_to edit_review_path(review) do %>
+                      <%# <i class="fas fa-file-pen"></i> %>
+                    <%# <% end %>
+                    <%# <%= link_to review_path(review), method: :delete, data: { confirm: "Are you sure you want to delete this comment?" } do %>
+                      <%# <i class="fas fa-trash-can"></i> %>
+                    <%# <% end %>
+                  <%# <% end %>
+                </div>
+              </small>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+      <%= simple_form_for([ @list, @review ], remote: true,
+                          data: {
+                            insert_in_list_target: "form",
+                            action: "submit->insert-in-list#send"
+                        }) do |f| %>
+        <%= f.input :comment, as: :text, label: "Your comment:", placeholder: "Add your review here..." %>
+        <%= f.input :rating, as: :select, collection: (1..5), required: true, prompt: "What's your rating?" %>
+        <%= f.button :submit, class: "btn btn-flat" %>
+      <% end %>
+
   </div>
 </div>
 
