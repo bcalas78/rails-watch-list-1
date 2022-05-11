@@ -8,15 +8,16 @@ class ReviewsController < ApplicationController
 
   def new
     @list = List.find(params[:list_id])
-    # @reviews = current_user.reviews.new
-    @reviews = Review.new
+    @reviews = current_user.reviews.new
+    # @reviews = Review.new
   end
 
   def create
-    @user = current_user(user_params)
+    @review = current_user.reviews.new(review_params)
+    # @user = current_user
     @list = List.find(params[:list_id])
-    @review = Review.new(review_params)
-    @review.user = @user
+    # @review = Review.new(review_params)
+    # @review.user = @user
     @review.list = @list
 
     respond_to do |format|
@@ -24,7 +25,7 @@ class ReviewsController < ApplicationController
         format.html { redirect_to list_path(@list) }
         format.json # Follow the classic Rails flow and look for a create.json view
       else
-        format.html { render "lists/show" }
+        format.html { render 'lists/show' }
         format.json # Follow the classic Rails flow and look for a create.json view
       end
     end
@@ -53,6 +54,6 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:comment, :rating)
+    params.require(:review).permit(:comment, :rating, :user_id)
   end
 end
