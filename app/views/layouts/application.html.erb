@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>RailsWatchList1</title>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -9,6 +10,8 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true %>
+
+
   </head>
 
   <body>
@@ -20,6 +23,17 @@
         <%= render 'shared/navbar' %>
         <%= render 'shared/flashes' %>
         <%= yield %>
+
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+  // disable: function() {
+  //    var maxWidth = 768;
+  //    return window.innerWidth < maxWidth;
+  // }
+    });
+  </script>
+
       </div>
       <footer id="footer"><%= render 'shared/footer' %></footer>
     </div>
